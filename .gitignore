@@ -1,0 +1,7 @@
+# Vivado files
+TDCsystem/*
+NA/*
+.Xil/*
+vivado*.str
+vivado*.jou
+vivado*.log
