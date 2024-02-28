@@ -40,7 +40,7 @@ Implements the whole logic of the tapped Delay line (TDL), this is quite heavy, 
 - the actual line is implemented using `CARRY4` primitives, each carry block represent 4 taps
 ##### adderTree.vhd
 Defines the pipelined added tree used by the encoder. I won't go into the details, this is some pretty complex code coming from a Stackoverflow template. The main idea is to recursively add inputs together until there is only one input left, this is the final sum.
-About the signals, it takes in a vector of inputs of a certain length `x_in`, and outputs there sum `y-out`. It also has 1 valid signal in and 1 out.
+About the signals, it takes in a vector of inputs of a certain length `x_in`, and outputs there sum `y_out`. It also has 1 valid signal in and 1 out.
 ##### encoder.vhd
 *interpretation of the TDL*
 The encoder computes the number of 1s in the thermo code sent by the delay line. It uses LUTs and an adder tree for that.
@@ -51,7 +51,8 @@ The encoder computes the number of 1s in the thermo code sent by the delay line.
 Defines the control unit for the TDC. It uses a Finite State Machine (FSM) to control the operation of the system.
 - The entity takes as input the incoming `timestamp` (coarse and fine concatenated) `valid`.
 - `trigger_in` and `trigger_out` are signals used to keep track of how many measurements have been made (closely linked to the internal variable `addr_cnt`), I believe these are only informative (i.e., for debugging) as the FSM goes to `RUN_DONE` by checking if `addr_cnt = ADDR_MAX`.
-- The FSM has 4 control signals; `run`, and `clr` the main ones. but also, `rdy` for the initialization and `full` acting as a flag for the BRAM.
+
+The FSM has 4 control signals; `run`, and `clr` the main ones. but also, `rdy` for the initialization and `full` acting as a flag for the BRAM.
 The FSM has 6 states, see [figs/AXITDC/TDCcore/control/controlFSM.png]:
 - `INIT`: initialization, sets everything up and goes to `IDLE`
 - `IDLE`: Waiting state, goes to `RUNNING` when `run` is set to 1, goes to `CLEAR` when `clr` is set.
